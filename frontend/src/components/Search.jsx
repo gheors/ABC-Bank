@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import {
-    Button, Flex, FormControl,
-    Input, Text, Box, useToast
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Input, useToast } from "@chakra-ui/react";
+import React, { useEffect, useState } from 'react';
 import { getByNameOrLastName, getByRange } from "../API";
 
 export default function Search({ setCandidates, originCandidates, setBooleanSearchRange, setBooleanSearchName }) {

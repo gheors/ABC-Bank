@@ -3,6 +3,7 @@ import Candidate from './Candidate'
 import { Box, Flex } from "@chakra-ui/react"
 
 export default function CandidatesList({ candidates, setCandidates, setEditCandidate, booleanSearchName, booleanSearchRange }) {
+    
     return (
         <Box ml={5}>
             {booleanSearchName && <Box fontSize='20px' mb={5}>

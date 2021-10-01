@@ -1,14 +1,15 @@
-import React from 'react'
-import { Box, Flex, Image } from "@chakra-ui/react"
-import { getCandidates } from '../API'
+import { Box, Flex, Image } from "@chakra-ui/react";
+import React,{useMemo,useEffect} from 'react';
 import { FaPen } from 'react-icons/fa';
 import { IoMdRemoveCircle } from 'react-icons/io';
 import { deleteCandidate } from "../API";
 
 export default function Candidate({ candidate, candidates, setCandidates, setEditCandidate }) {
-    console.log(candidate.image)
 
-
+    const src = useMemo(() => "data:image/png;base64," + candidate.image, [candidate.image])
+    useEffect(() => {
+       console.log(candidate.image)
+    }, [candidate.image])
     return (
         <Flex flexDir='column'
             w='350px' p={4} m={2}
@@ -20,7 +21,7 @@ export default function Candidate({ candidate, candidates, setCandidates, setEdi
         >
 
             <Flex fontSize='20px' alignItems='center' mb={2} position='relative'>
-                <Image borderRadius='50%' w={'100px'} h='90px' src={"data:image/png;base64," + candidate.image} alt={"error"} mb={5} mr={5} />
+                <Image borderRadius='50%' w={'100px'} h='90px' src={src} alt={"error"} mb={5} mr={5} />
                 <Box mr={1}>{candidate.firstName}</Box> <Box flexGrow='1'>{candidate.lastName}</Box>
 
                 <Box fontSize='16px' mr={1}
@@ -42,7 +43,7 @@ export default function Candidate({ candidate, candidates, setCandidates, setEdi
                     borderRadius={'50%'}
                     onClick={() => {
                         deleteCandidate(candidate.id).then(
-                            setCandidates(candidates.filter(el => el.id != candidate.id))
+                            setCandidates(candidates.filter(el => el.id !== candidate.id))
                         )
                     }}>
                     <IoMdRemoveCircle />

@@ -105,15 +105,32 @@ public class CandidateController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateClient(@PathVariable Long id, @RequestBody Candidate candidate) {
+    public ResponseEntity updateClient(@PathVariable Long id, @RequestParam("candidate") String candidate,@RequestParam("file") MultipartFile file) throws JSONException, ParseException {
         Candidate currentCandidate = candidateRepository.findById(id).orElseThrow(RuntimeException::new);
-        currentCandidate.setFirstName(candidate.getFirstName());
-        currentCandidate.setLastName(candidate.getLastName());
-        currentCandidate.setBirthDate(candidate.getBirthDate());
-//        currentCandidate.setImage(candidate.getImage());
-        currentCandidate.setPhoneNumbers(candidate.getPhoneNumbers());
-        currentCandidate.setAddress(candidate.getAddress());
-        currentCandidate = candidateRepository.save(candidate);
+
+        String fileName= StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+        JSONObject obj = new JSONObject(candidate);
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = df.parse(obj.getString("birthDate"));
+
+        List<String> numbers = parseNumbers(obj.getJSONArray("phoneNumbers"));
+
+        if(fileName.contains("..")){
+            throw new MultipartException("file not valid");
+        }
+        try{
+            currentCandidate.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        currentCandidate.setFirstName(obj.getString("firstName"));
+        currentCandidate.setLastName(obj.getString("lastName"));
+        currentCandidate.setBirthDate(date);
+        currentCandidate.setPhoneNumbers(numbers);
+        currentCandidate.setAddress(obj.getString("address"));
+        candidateRepository.save(currentCandidate);
         return ResponseEntity.ok(currentCandidate);
     }
 
