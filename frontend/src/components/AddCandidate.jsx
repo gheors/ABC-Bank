@@ -6,17 +6,15 @@ import {
   Input,
   useToast,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { IoMdRemoveCircle } from "react-icons/io";
 import { createCandidate, updateCandidate } from "../API";
+import { Context } from "../Context";
 import UploadImage from "./UploadImage";
 
-export default function AddCandidate({
-  candidates,
-  setCandidates,
-  editCandidate,
-  setEditCandidate,
-}) {
+export default function AddCandidate({ }) {
+
+  const { candidates, setCandidates, editCandidate, setEditCandidate } = useContext(Context)
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [address, setAddress] = useState("");
@@ -210,7 +208,7 @@ export default function AddCandidate({
                 defaultValue={phoneNumbers[index]}
                 mr={10}
                 mb={5}
-                onChange={(event) => {}}
+                onChange={(event) => { }}
                 onBlur={(event) => {
                   let arr = phoneNumbers;
                   arr[index] = event.target.value;

@@ -1,8 +1,12 @@
 import { Box, Button, Flex, Input, useToast } from "@chakra-ui/react";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { getByNameOrLastName, getByRange } from "../API";
+import { Context } from "../Context";
 
-export default function Search({ setCandidates, originCandidates, setBooleanSearchRange, setBooleanSearchName }) {
+export default function Search({ originCandidates, }) {
+    const { setCandidates, setBooleanSearchRange, setBooleanSearchName } = useContext(Context)
+
+
     const [current, setCurrent] = useState('');
 
     const [minRange, setMinRange] = useState('');

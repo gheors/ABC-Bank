@@ -1,15 +1,17 @@
 import { Box, Flex, Image } from "@chakra-ui/react";
-import React,{useMemo,useEffect} from 'react';
+import React, { useMemo, useContext } from 'react';
 import { FaPen } from 'react-icons/fa';
 import { IoMdRemoveCircle } from 'react-icons/io';
 import { deleteCandidate } from "../API";
+import { Context } from "../Context";
 
-export default function Candidate({ candidate, candidates, setCandidates, setEditCandidate }) {
+export default function Candidate({ candidate, setEditCandidate }) {
+
+    const { candidates, setCandidates } = useContext(Context)
 
     const src = useMemo(() => "data:image/png;base64," + candidate.image, [candidate.image])
-    useEffect(() => {
-       console.log(candidate.image)
-    }, [candidate.image])
+
+
     return (
         <Flex flexDir='column'
             w='350px' p={4} m={2}
